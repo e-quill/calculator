@@ -15,7 +15,7 @@ function divide(a,b){
 }
 
 function operate(firstNumber,secondNumber,operator){
- return add(firstNumber,secondNumber)
+ displayValue =  add(firstNumber,secondNumber)
 }
 
 function updateDisplay(){
@@ -23,19 +23,58 @@ function updateDisplay(){
   display.innerText = `${displayValue}`;
 }
 
+function clearDisplay(){
+  displayValue = ""
+  updateDisplay()
+}
+
+function firstValue() {
+  firstNumber = parseInt(displayValue)
+  displayValue = "";
+}
+
+function resetValues(){
+ firstNumber = null;
+ secondNumber = null;
+ currentOperator = null;
+ displayValue = "";
+}
+
 function main(){
-  const buttons = document.querySelectorAll(".button")
-  buttons.forEach(button => {
-    button.addEventListener("click", () => {
-      displayValue += button.innerText
+  const numbers = document.querySelectorAll(".number")
+  const operators = document.querySelectorAll(".operator")
+  const clear = document.querySelector(".clear")
+  const equals = document.querySelector(".equals")
+
+  numbers.forEach(number => {
+    number.addEventListener("click", () => {
+      displayValue += number.innerText;
       updateDisplay()
     })
+  })
+
+  operators.forEach(operator => {
+    operator.addEventListener("click", (opr) => {
+      currentOperator = opr.target.innerText;
+      firstValue()
+    })
+  })
+
+  clear.addEventListener("click", () => {
+    clearDisplay()
+  })
+
+  equals.addEventListener("click", () => {
+    secondNumber = parseInt(displayValue)
+    operate(firstNumber,secondNumber,"+")
+    updateDisplay()
+    resetValues()
   })
 }
 
 let firstNumber = null;
 let secondNumber = null;
-let operator = null;
+let currentOperator = null;
 let displayValue = "";
 
 main()
