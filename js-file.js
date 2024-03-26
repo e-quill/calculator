@@ -14,8 +14,22 @@ function divide(a,b){
   return a / b;
 }
 
-function operate(firstNumber,secondNumber,operator){
- displayValue =  add(firstNumber,secondNumber)
+function operate(firstNumber,secondNumber,currentOperator){
+ 
+  switch (currentOperator){
+    case "+":
+      displayValue =  add(firstNumber,secondNumber)
+      break;
+    case "-":
+      displayValue =  subtract(firstNumber,secondNumber)
+      break;
+    case "×":
+      displayValue =  multiply(firstNumber,secondNumber)
+      break;
+    case "÷":
+      displayValue =  divide(firstNumber,secondNumber)
+      break;
+  }
 }
 
 function updateDisplay(){
@@ -66,7 +80,7 @@ function main(){
 
   equals.addEventListener("click", () => {
     secondNumber = parseInt(displayValue)
-    operate(firstNumber,secondNumber,"+")
+    operate(firstNumber,secondNumber,currentOperator)
     updateDisplay()
     resetValues()
   })
