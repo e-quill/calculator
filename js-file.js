@@ -52,6 +52,7 @@ function resetValues(){
  secondNumber = null;
  currentOperator = null;
  displayValue = "";
+ operatorCount = null;
 }
 
 function main(){
@@ -69,13 +70,20 @@ function main(){
 
   operators.forEach(operator => {
     operator.addEventListener("click", (opr) => {
+      if (operatorCount > 0) {
+        secondNumber = parseInt(displayValue)
+        operate(firstNumber,secondNumber,currentOperator)
+        updateDisplay()
+      } 
       currentOperator = opr.target.innerText;
       firstValue()
+      operatorCount++
     })
   })
 
   clear.addEventListener("click", () => {
     clearDisplay()
+    resetValues()
   })
 
   equals.addEventListener("click", () => {
@@ -90,5 +98,6 @@ let firstNumber = null;
 let secondNumber = null;
 let currentOperator = null;
 let displayValue = "";
+let operatorCount = 0;
 
 main()
