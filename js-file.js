@@ -27,8 +27,12 @@ function operate(firstNumber,secondNumber,currentOperator){
       displayValue =  multiply(firstNumber,secondNumber)
       break;
     case "÷":
-      displayValue =  divide(firstNumber,secondNumber)
+      if (secondNumber == 0){
+        displayValue = "Error"
+      } else {
+        displayValue =  divide(firstNumber,secondNumber)
       break;
+      }
   }
 }
 
@@ -51,7 +55,7 @@ function resetValues(){
  firstNumber = null;
  secondNumber = null;
  currentOperator = null;
- displayValue = "";
+//  displayValue = "";
  operatorCount = null;
 }
 
