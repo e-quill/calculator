@@ -11,7 +11,7 @@ function multiply(a,b){
 }
 
 function divide(a,b){
-  return a / b;
+  return (a / b).toFixed(2);
 }
 
 function operate(firstNumber,secondNumber,currentOperator){
@@ -47,7 +47,11 @@ function clearDisplay(){
 }
 
 function firstValue() {
-  firstNumber = parseInt(displayValue)
+  if (displayValue.includes(".")) {
+    firstNumber = parseFloat(displayValue)
+  } else {
+    firstNumber = parseInt(displayValue)
+  }
   displayValue = "";
 }
 
@@ -57,6 +61,7 @@ function resetValues(){
  currentOperator = null;
 //  displayValue = "";
  operatorCount = null;
+ decimalCount = 0;
 }
 
 function main(){
@@ -64,6 +69,7 @@ function main(){
   const operators = document.querySelectorAll(".operator")
   const clear = document.querySelector(".clear")
   const equals = document.querySelector(".equals")
+  const decimal = document.querySelector(".decimal")
 
   numbers.forEach(number => {
     number.addEventListener("click", () => {
@@ -75,10 +81,17 @@ function main(){
   operators.forEach(operator => {
     operator.addEventListener("click", (opr) => {
       if (operatorCount > 0) {
-        secondNumber = parseInt(displayValue)
-        operate(firstNumber,secondNumber,currentOperator)
-        updateDisplay()
+        if (displayValue.includes(".")){
+          secondNumber = parseFloat(displayValue)
+          operate(firstNumber,secondNumber,currentOperator)
+          updateDisplay()
+        } else {
+          secondNumber = parseInt(displayValue)
+          operate(firstNumber,secondNumber,currentOperator)
+          updateDisplay()
+        }
       } 
+      decimal.disabled = false;
       currentOperator = opr.target.innerText;
       firstValue()
       operatorCount++
@@ -88,13 +101,30 @@ function main(){
   clear.addEventListener("click", () => {
     clearDisplay()
     resetValues()
+    decimal.disabled = false
   })
 
   equals.addEventListener("click", () => {
-    secondNumber = parseInt(displayValue)
+    if (displayValue.includes(".")) {
+      secondNumber = parseFloat(displayValue)
+    } else {
+      secondNumber = parseInt(displayValue)
+    }
     operate(firstNumber,secondNumber,currentOperator)
     updateDisplay()
     resetValues()
+  })
+
+  decimal.addEventListener("click", () => {
+
+    decimalCount++
+
+    if (decimalCount > 0){
+      decimal.disabled = true;
+    } 
+
+    displayValue += decimal.innerText;
+    updateDisplay()
   })
 }
 
@@ -103,5 +133,6 @@ let secondNumber = null;
 let currentOperator = null;
 let displayValue = "";
 let operatorCount = 0;
+let decimalCount = 0;
 
 main()
